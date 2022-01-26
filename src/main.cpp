@@ -57,7 +57,7 @@ void loop() {
   */
 
   xval = analogRead(Joy1);
-  eye_x_axis = constrain(xval, 220, 440);
+  eye_x_axis = map(xval, 0, 1023, 220, 440);
 
   /*
   left_eye_y_axis = map(yval, 0, 1023, 250, 500);
@@ -65,11 +65,11 @@ void loop() {
   */
 
   yval = analogRead(Joy2);
-  eye_y_axis = constrain(yval, 250, 500);
-  
+  eye_y_axis = map(yval, 0, 1023, 100, 500);
+  Serial.println(eye_y_axis);
   knobval = constrain(analogRead(Knob), -40, 40);
-  blink_upper_eyelid_pulse_length = constrain(yval, 280, 400);
-  blink_lower_eyelid_pulse_length = 680 - blink_upper_eyelid_pulse_length;
+  blink_upper_eyelid_pulse_length = map(knobval, 0, 1023, 280, 400);
+  //blink_lower_eyelid_pulse_length = 680 - blink_upper_eyelid_pulse_length;
 
   pwm.setPWM(0, 0, eye_x_axis);
   pwm.setPWM(1, 0, eye_y_axis);
@@ -86,4 +86,5 @@ void loop() {
     pwm.setPWM(4, 0, blink_upper_eyelid_pulse_length);
     pwm.setPWM(5, 0, blink_lower_eyelid_pulse_length);
   }
+  delay(5);
 }

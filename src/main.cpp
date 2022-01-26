@@ -72,26 +72,27 @@ void loop() {
   left_blink_upper_eyelid_pulse_length = map(analogRead(Knob), 0, 1023, 100, 380); //200 diff
   left_blink_lower_eyelid_pulse_length = map(analogRead(Knob), 0, 1023, 720, 420); //200 diff
   right_blink_upper_eyelid_pulse_length = map(analogRead(Knob), 0, 1023, 380, 100);
-  right_blink_lower_eyelid_pulse_length = map(analogRead(Knob), 0, 1023, 420, 720);
+  right_blink_lower_eyelid_pulse_length = map(analogRead(Knob), 0, 1023, 420, 680);
   pwm.setPWM(0, 0, eye_x_axis);
   pwm.setPWM(1, 0, eye_y_axis);
-  
-  pwm.setPWM(2, 0, left_blink_upper_eyelid_pulse_length);
-  pwm.setPWM(3, 0, left_blink_lower_eyelid_pulse_length);
-  pwm.setPWM(4, 0, right_blink_upper_eyelid_pulse_length);
-  pwm.setPWM(5, 0, right_blink_lower_eyelid_pulse_length);
-  
-/*   if (Button == HIGH) {
+
+  buttonval = digitalRead(Button);
+ 
+  Serial.print(right_blink_upper_eyelid_pulse_length);
+  Serial.print(" ");
+  Serial.println(right_blink_lower_eyelid_pulse_length);
+
+  if (buttonval == HIGH) {
     pwm.setPWM(2, 0, 380);
-    pwm.setPWM(3, 0, 240);
-    pwm.setPWM(4, 0, 240);
-    pwm.setPWM(5, 0, 400);
+    pwm.setPWM(3, 0, 420);
+    pwm.setPWM(4, 0, 100);
+    pwm.setPWM(5, 0, 600);
   }
-  else if (Button == LOW) {
+  else if (buttonval == LOW) {
     pwm.setPWM(2, 0, left_blink_upper_eyelid_pulse_length);
     pwm.setPWM(3, 0, left_blink_lower_eyelid_pulse_length);
     pwm.setPWM(4, 0, right_blink_upper_eyelid_pulse_length);
     pwm.setPWM(5, 0, right_blink_lower_eyelid_pulse_length);
-  } */
+  }
   delay(5);
 }

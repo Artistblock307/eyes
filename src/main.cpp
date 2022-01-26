@@ -26,8 +26,10 @@ int right_eye_y_axis = 0;
 int eye_x_axis = 0;
 int eye_y_axis = 0;
 
-int blink_upper_eyelid_pulse_length = 0;
-int blink_lower_eyelid_pulse_length = 0;
+int left_blink_upper_eyelid_pulse_length = 0;
+int left_blink_lower_eyelid_pulse_length = 0;
+int right_blink_upper_eyelid_pulse_length = 0;
+int right_blink_lower_eyelid_pulse_length = 0;
 
 const int Joy1 = A0;
 const int Joy2 = A1;
@@ -66,25 +68,30 @@ void loop() {
 
   yval = analogRead(Joy2);
   eye_y_axis = map(yval, 0, 1023, 100, 500);
-  Serial.println(eye_y_axis);
   knobval = constrain(analogRead(Knob), -40, 40);
-  blink_upper_eyelid_pulse_length = map(knobval, 0, 1023, 280, 400);
-  //blink_lower_eyelid_pulse_length = 680 - blink_upper_eyelid_pulse_length;
-
+  left_blink_upper_eyelid_pulse_length = map(analogRead(Knob), 0, 1023, 100, 380); //200 diff
+  left_blink_lower_eyelid_pulse_length = map(analogRead(Knob), 0, 1023, 720, 420); //200 diff
+  right_blink_upper_eyelid_pulse_length = map(analogRead(Knob), 0, 1023, 380, 100);
+  right_blink_lower_eyelid_pulse_length = map(analogRead(Knob), 0, 1023, 420, 720);
   pwm.setPWM(0, 0, eye_x_axis);
   pwm.setPWM(1, 0, eye_y_axis);
-
-  if (Button == HIGH) {
-    pwm.setPWM(2, 0, 400);
+  
+  pwm.setPWM(2, 0, left_blink_upper_eyelid_pulse_length);
+  pwm.setPWM(3, 0, left_blink_lower_eyelid_pulse_length);
+  pwm.setPWM(4, 0, right_blink_upper_eyelid_pulse_length);
+  pwm.setPWM(5, 0, right_blink_lower_eyelid_pulse_length);
+  
+/*   if (Button == HIGH) {
+    pwm.setPWM(2, 0, 380);
     pwm.setPWM(3, 0, 240);
     pwm.setPWM(4, 0, 240);
     pwm.setPWM(5, 0, 400);
   }
   else if (Button == LOW) {
-    pwm.setPWM(2, 0, blink_upper_eyelid_pulse_length);
-    pwm.setPWM(3, 0, blink_lower_eyelid_pulse_length);
-    pwm.setPWM(4, 0, blink_upper_eyelid_pulse_length);
-    pwm.setPWM(5, 0, blink_lower_eyelid_pulse_length);
-  }
+    pwm.setPWM(2, 0, left_blink_upper_eyelid_pulse_length);
+    pwm.setPWM(3, 0, left_blink_lower_eyelid_pulse_length);
+    pwm.setPWM(4, 0, right_blink_upper_eyelid_pulse_length);
+    pwm.setPWM(5, 0, right_blink_lower_eyelid_pulse_length);
+  } */
   delay(5);
 }
